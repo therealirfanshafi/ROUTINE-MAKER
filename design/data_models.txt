@@ -2,9 +2,10 @@ Data to be stored
 Subject Code, Subject Name, Qualification Level, Component, Component Title, Date, Session, Marks, Duration
 
 Normalised Tables
-SUBJECT(Code, Name, LEVEL)
+SUBJECT(Code, LEVEL)
 LEVEL(Title)
-COMPONENT(Code, Title, Marks, Duration, SUBJECT)
+OPTION(Name, Extension(NULL), Component_M2M)
+COMPONENT(Code, Title, Marks, Duration, SUBJECT, OPTION_M2M)
 Exam(COMPONENT, Date, Session)
 
 Solution for M1/S1 // different practical variants:
