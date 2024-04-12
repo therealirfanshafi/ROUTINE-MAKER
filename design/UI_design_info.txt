@@ -1,0 +1,5 @@
+Qualification Title Text Colour: #3CA8AF
+Subject Text Color: #3B46AE
+Qualification Button Colour: #D8FFF8
+Subject Button Color: #D1E4FF
+Button border radius: 20px
