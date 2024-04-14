@@ -22,20 +22,25 @@
         <h2>Select your subjects</h2>
         <form style="display:flex; flex-direction: column; align-items: center;">
             <div id="subject-selector" class="selector">
-                <input type="button" value="Mathematics (Mechanics)" >
-                <input type="button" value="Mathematics (Statistic)">
-                <input type="button" value="Physics (Practical Variant 33)">
-                <input type="button" value="Physics (Practical Variant 34)">
-                <input type="button" value="Chemistry (Practical Variant 33)">
-                <input type="button" value="Chemistry (Practical Variant 34)">
-                <input type="button" value="Biology (Practical Variant 33)">
-                <input type="button" value="Biology (Practical Variant 34)">
-                <input type="button" value="Economics">
-                <input type="button" value="Computer Science">
-                <input type="button" value="Accounting">
+                <input type="button" value="Mathematics (Mechanics)" onclick="addSubject('Mathematics (Mechanics)')">
+                <input type="button" value="Mathematics (Statistics)" onclick="addSubject('Mathematics (Statistics)')">
+                <input type="button" value="Physics (Practical Variant 33)" onclick="addSubject('Physics (Practical Variant 33)')">
+                <input type="button" value="Physics (Practical Variant 34)" onclick="addSubject('Physics (Practical Variant 34)')">
+                <input type="button" value="Chemistry (Practical Variant 33)" onclick="addSubject('Chemistry (Practical Variant 33)')">
+                <input type="button" value="Chemistry (Practical Variant 34)" onclick="addSubject('Chemistry (Practical Variant 34)')">
+                <input type="button" value="Biology (Practical Variant 33)" onclick="addSubject('Biology (Practical Variant 33)')">
+                <input type="button" value="Biology (Practical Variant 34)" onclick="addSubject('Biology (Practical Variant 34)')">
+                <input type="button" value="Economics" onclick="addSubject('Economics')">
+                <input type="button" value="Computer Science" onclick="addSubject('Computer Science')">
+                <input type="button" value="Accounting" onclick="addSubject('Accounting')">
             </div>
-            <input type="submit" style="width: 100px; display: none;">
+            <div id="selected-subject-list-container" style="display: none;">
+                <ul id="selected-subject-list">
+                </ul>
+            </div>
+            <input id="submit" type="submit" style="width: 100px; display: none;">
         </form>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
