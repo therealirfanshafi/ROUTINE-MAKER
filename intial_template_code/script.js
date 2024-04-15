@@ -7,6 +7,19 @@ function addSubject(subjectName) {
 
     const subjectListElm = document.getElementById('selected-subject-list');
 
+
+    if (subjectName.includes('(')) {
+        const baseName = subjectName.slice(0, subjectName.indexOf('('));
+
+        for (let i = 0; i < subjectList.length; i++) {
+            if (subjectList[i].includes(baseName)) {
+                const removedElm = subjectList.splice(i, 1);
+                document.getElementById(removedElm).remove();
+            }
+        }
+
+    }
+
     if (!(subjectList.includes(subjectName))) {
 
         subjectList.push(subjectName);
@@ -37,7 +50,7 @@ function addSubject(subjectName) {
                 }
             }
         });
-        
+
         subjectListElm.appendChild(buttonElm);
 
     }
