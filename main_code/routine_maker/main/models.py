@@ -1,15 +1,17 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
-
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
 class Subject(models.Model):
+    name = models.CharField(max_length=10)
     code = models.CharField(max_length=4, validators=[MinLengthValidator(4)])
 
 
     def __str__(self):
-        return self.code
+        return f"{self.name} ({self.code})"
 
 
 class Level(models.Model):
@@ -34,18 +36,27 @@ class Component(models.Model):
 
 
 class Option(models.Model):
-    name = models.CharField(max_length=10)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     extension = models.CharField(max_length=15, null=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     components = models.ManyToManyField('Component', through='Option_Component')
 
     
     def __str__(self):
-        return self.name
+        return f"{self.subject.name} ({self.extension})"
 
 class Option_Component(models.Model):
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
     component = models.ForeignKey(Component, on_delete= models.CASCADE)
+
+
+    def clean(self):
+        if self.option.subject != self.component.subject:
+            raise ValidationError(
+                _('The subjects and components must match')
+            )
+        
+        super().clean()
 
 
 class Exam(models.Model):
