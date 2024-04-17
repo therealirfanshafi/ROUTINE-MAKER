@@ -2,7 +2,7 @@ const subjectList = [];
 const subjectTrackerElm = document.getElementById('subject-tracker');
 
 
-function addSubject(subjectName) {
+function addSubject(subjectName, qualification) {
 
     document.querySelector('#selected-subject-list-container').style.display = "flex";
     document.querySelector('#submit').style.display = "block";
@@ -37,7 +37,7 @@ function addSubject(subjectName) {
                 subjectList.splice(i, 1);
                 console.log(buttonElm.textContent);
                 document.getElementById(buttonElm.textContent).remove();
-                subjectTrackerElm.value = JSON.stringify(subjectList);
+                subjectTrackerElm.value = JSON.stringify([...subjectList, {qualification: qualification}]);
             }
         
             catch (e) {
@@ -55,7 +55,7 @@ function addSubject(subjectName) {
         });
 
         subjectListElm.appendChild(buttonElm);
-        subjectTrackerElm.value = JSON.stringify(subjectList);
+        subjectTrackerElm.value = JSON.stringify([...subjectList, {qualification: qualification}]);
     }
 }
 

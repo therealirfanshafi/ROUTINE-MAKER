@@ -26,9 +26,9 @@
                 <div id="subject-selector" class="selector">
                     {% for subject in subjects %}
                         {% if subject.extension %}
-                            <input type="button" value="{{subject.subject.name}} ({{subject.extension}})" onclick="addSubject('{{subject.subject.name}} ({{subject.extension}})')">
+                            <input type="button" value="{{subject.subject.name}} ({{subject.extension}})" onclick="addSubject('{{subject.subject.name}} ({{subject.extension}})', '{{subject.level}}' )">
                         {% else %}
-                            <input type="button" value="{{subject.subject.name}}" onclick="addSubject('{{subject.subject.name}}')">
+                            <input type="button" value="{{subject.subject.name}}" onclick="addSubject('{{subject.subject.name}}', '{{subject.level}}')">
                         {% endif %}
                     {% endfor %}
                 </div>

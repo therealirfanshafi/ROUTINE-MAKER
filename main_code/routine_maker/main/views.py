@@ -21,5 +21,22 @@ class Home(View):
 
 class Routine(View):
     def get(self, request):
-        data = parse_json(request.GET['subjects'])
-        return HttpResponse(str(data))
+        subjects = parse_json(request.GET['subjects'])
+        components = list()
+        print(subjects[-1]['qualification'])
+        for subject in subjects[:-1]:
+            if '(' in subject:
+                subject = subject.split('(')
+                subject[0] = subject[0][0:-1]
+                subject[1] = subject[1][0:-1]
+                intermediate_components_list = [x.component for x in Option_Component.objects.filter(option__subject__name=subject[0], option__extension=subject[1], option__level__title=subjects[-1]['qualification'])]
+                for component in intermediate_components_list:
+                    components.append(component)
+                
+                
+            else:
+                intermediate_components_list = [x.component for x in Option_Component.objects.filter(option__subject__name=subject, option__level__title=subjects[-1]['qualification'])]
+                for component in intermediate_components_list:
+                    components.append(component)
+
+        return HttpResponse(components)
