@@ -22,7 +22,7 @@
     {% if subjects %}
         <div id="subject-selector-box" class="selector-box">
             <h2>Select your subjects</h2>
-            <form style="display:flex; flex-direction: column; align-items: center;">
+            <form style="display:flex; flex-direction: column; align-items: center;" action="{% url 'main:routine'%}" method="get">
                 <div id="subject-selector" class="selector">
                     {% for subject in subjects %}
                         {% if subject.extension %}
@@ -32,6 +32,7 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+                <input type="text" id="subject-tracker" style="display: none;" name="subjects">
                 <div id="selected-subject-list-container" style="display: none; flex-direction: column; align-items: center;">
                     <h3>YOUR SELECTED SUBJECTS</h3>
                     

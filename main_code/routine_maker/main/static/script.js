@@ -1,4 +1,6 @@
 const subjectList = [];
+const subjectTrackerElm = document.getElementById('subject-tracker');
+
 
 function addSubject(subjectName) {
 
@@ -35,6 +37,7 @@ function addSubject(subjectName) {
                 subjectList.splice(i, 1);
                 console.log(buttonElm.textContent);
                 document.getElementById(buttonElm.textContent).remove();
+                subjectTrackerElm.value = JSON.stringify(subjectList);
             }
         
             catch (e) {
@@ -52,6 +55,7 @@ function addSubject(subjectName) {
         });
 
         subjectListElm.appendChild(buttonElm);
-
+        subjectTrackerElm.value = JSON.stringify(subjectList);
     }
 }
+

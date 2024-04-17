@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
+from django.urls import reverse
+from json import loads as parse_json
 from .models import *
 
 
@@ -15,3 +17,9 @@ class Home(View):
         qualifications = Level.objects.all()
         ctx['qualifications'] = qualifications
         return render(request, 'index.html', ctx)
+
+
+class Routine(View):
+    def get(self, request):
+        data = parse_json(request.GET['subjects'])
+        return HttpResponse(str(data))
