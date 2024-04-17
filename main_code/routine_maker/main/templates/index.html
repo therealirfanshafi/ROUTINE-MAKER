@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routine Creator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div id="qualification-selector-box" class ="selector-box">
+        <h1>Select your qualification</h1>
+        <form action="" id="qualification-selector" class="selector" method="get">
+            {% for qualification in qualifications %}
+                <input type="submit" value="{{qualification.title}}" name="{{qualification.title}}">
+            {% endfor %}
+        </form>
+    </div>
+    {% if subjects %}
+        <div id="subject-selector-box" class="selector-box">
+            <h2>Select your subjects</h2>
+            <form style="display:flex; flex-direction: column; align-items: center;">
+                <div id="subject-selector" class="selector">
+                    <input type="button" value="Mathematics (Mechanics)" onclick="addSubject('Mathematics (Mechanics)')">
+                    <input type="button" value="Mathematics (Statistics)" onclick="addSubject('Mathematics (Statistics)')">
+                    <input type="button" value="Physics (Practical Variant 33)" onclick="addSubject('Physics (Practical Variant 33)')">
+                    <input type="button" value="Physics (Practical Variant 34)" onclick="addSubject('Physics (Practical Variant 34)')">
+                    <input type="button" value="Chemistry (Practical Variant 33)" onclick="addSubject('Chemistry (Practical Variant 33)')">
+                    <input type="button" value="Chemistry (Practical Variant 34)" onclick="addSubject('Chemistry (Practical Variant 34)')">
+                    <input type="button" value="Biology (Practical Variant 33)" onclick="addSubject('Biology (Practical Variant 33)')">
+                    <input type="button" value="Biology (Practical Variant 34)" onclick="addSubject('Biology (Practical Variant 34)')">
+                    <input type="button" value="Economics" onclick="addSubject('Economics')">
+                    <input type="button" value="Computer Science" onclick="addSubject('Computer Science')">
+                    <input type="button" value="Accounting" onclick="addSubject('Accounting')">
+                </div>
+                <div id="selected-subject-list-container" style="display: none; flex-direction: column; align-items: center;">
+                    <h3>YOUR SELECTED SUBJECTS</h3>
+                    
+                    <div id="selected-subject-list" class="selector">
+
+                    </div>
+                    
+                    <h3>Click on the selected subject to remove it</h3>
+                </div>
+                <input id="submit" type="submit" value="Make Routine" style="width: 100px; display: none;">
+            </form>
+        </div>
+    {% endif%}
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
