@@ -31,12 +31,14 @@ class Routine(View):
                 subject[1] = subject[1][0:-1]
                 intermediate_components_list = [x.component for x in Option_Component.objects.filter(option__subject__name=subject[0], option__extension=subject[1], option__level__title=subjects[-1]['qualification'])]
                 for component in intermediate_components_list:
-                    components.append(component)
+                    components.append(component.id)
                 
                 
             else:
                 intermediate_components_list = [x.component for x in Option_Component.objects.filter(option__subject__name=subject, option__level__title=subjects[-1]['qualification'])]
                 for component in intermediate_components_list:
-                    components.append(component)
+                    components.append(component.id)
 
-        return HttpResponse(components)
+        exam = Exam.objects.filter(component__in=components)
+
+        return HttpResponse(exam)
