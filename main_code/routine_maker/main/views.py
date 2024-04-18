@@ -1,8 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
-from django.urls import reverse
+from django.http import FileResponse, HttpResponse
 from json import loads as parse_json
+
+
+import io
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import BaseDocTemplate, PageTemplate, KeepTogether, Frame, PageTemplate, Table
+from reportlab.lib.units import cm
+
 from .models import *
 
 
@@ -39,6 +46,56 @@ class Routine(View):
                 for component in intermediate_components_list:
                     components.append(component.id)
 
-        exam = Exam.objects.filter(component__in=components)
+        exams = Exam.objects.filter(component__in=components).order_by('date', 'session')
+        exam_tabulated = [['Date', 'Session', 'Code', 'Subject Name', 'Duration', 'Marks']]
+        
+        for exam in exams:
+            if exam.component.title == "Environment and Development of Bangladesh":
+                exam_tabulated.append([exam.date.strftime('%A\n%d %B, %Y\n (%d/%m/%Y)'), exam.session, exam.component, f"{exam.component.subject.name} Paper {exam.component.code[-1]}:\n Environment and\nDevelopment of Bangladesh", exam.component.duration, exam.component.marks ])
+            elif exam.component.code[0] == '0':
+                exam_tabulated.append([exam.date.strftime('%A\n%d %B, %Y\n (%d/%m/%Y)'), exam.session, exam.component, f"{exam.component.subject.name} Paper {exam.component.code[-1]}:\n{exam.component.title}", exam.component.duration, exam.component.marks ])
+            elif exam.component.title == "Fundamental Problem-solving and Programming Skills":
+                exam_tabulated.append([exam.date.strftime('%A\n%d %B, %Y\n (%d/%m/%Y)'), exam.session, exam.component, f"{exam.component.subject.name} Paper {exam.component.code[-1]}:\n Fundamental Problem-solving\nand Programming Skills", exam.component.duration, exam.component.marks ])
+            else:
+                exam_tabulated.append([exam.date.strftime('%A\n%d %B, %Y\n (%d/%m/%Y)'), exam.session, exam.component, f"{exam.component.subject.name} Paper {exam.component.code[0]}:\n{exam.component.title}", exam.component.duration, exam.component.marks ])
+    
 
-        return HttpResponse(exam)
+        buffer = io.BytesIO()
+
+        # adapted from https://stackoverflow.com/questions/63441401/python-reportlab-dynamically-create-new-page-after-first-page-is-completely-fill
+        text_frame = Frame(
+            x1=0 * cm,  # From left
+            y1=0 * cm,  # From bottom
+            height=A4[1],
+            width=A4[0],
+            leftPadding=2 * cm,
+            bottomPadding=2 * cm,
+            rightPadding=2 * cm,
+            topPadding=2 * cm,
+            id='text_frame')
+
+        # Building the story
+        t = Table(exam_tabulated, splitByRow=True, repeatRows=1)
+        t.setStyle([("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+                ("ALIGN", (0,0), (-1,-1), "CENTER"),
+                ('GRID', (0,0), (-1,-1), 0.25, colors.black),
+                ('FONTSIZE',(0,0), (-1,-1), 12)])
+
+        story = [t]
+        story.append(KeepTogether([]))
+
+        # Establish a document
+        doc = BaseDocTemplate(buffer, pagesize=A4)
+
+        # Creating a page template
+        frontpage = PageTemplate(id='FrontPage',
+                                frames=[text_frame]
+                                )
+        # Adding the story to the template and template to the document
+        doc.addPageTemplates(frontpage)
+
+        # Building doc
+        doc.build(story)
+
+        buffer.seek(0)
+        return FileResponse(buffer, filename="Routine.pdf")
