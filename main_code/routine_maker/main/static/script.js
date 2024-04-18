@@ -12,9 +12,8 @@ function addSubject(subjectName, qualification) {
 
     if (subjectName.includes('(')) {
         const baseName = subjectName.slice(0, subjectName.indexOf('('));
-
         for (let i = 0; i < subjectList.length; i++) {
-            if (subjectList[i].includes(baseName)) {
+            if (subjectList[i].slice(0, subjectName.indexOf('(')) === baseName) {
                 const removedElm = subjectList.splice(i, 1);
                 document.getElementById(removedElm).remove();
             }
